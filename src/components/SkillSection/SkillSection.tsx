@@ -24,12 +24,14 @@ const SkillSection: React.FC<SkillSectionPropTypes> = (props) => {
           );
         })}
       </section>
-      {Boolean(repoCount) && <section className="github-repo-section">
-        <h3>
-          <b>Github repo count</b>
-        </h3>
-        <h2>{repoCount}</h2>
-      </section>}
+      {Boolean(repoCount) && (
+        <section className="github-repo-section">
+          <h3>
+            <b>Github repo count</b>
+          </h3>
+          <h2>{repoCount}</h2>
+        </section>
+      )}
     </>
   );
 };

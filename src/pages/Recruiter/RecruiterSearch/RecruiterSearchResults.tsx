@@ -11,14 +11,7 @@ import "./RecruiterSearchResult.scss";
 
 const SingleWidget: React.FC<any> = (props) => {
   const { itm, setSelectedData, selectedData } = props;
-  const {
-    jobTitle,
-    skills,
-    location,
-    ctc,
-    exp,
-    name,
-  } = itm;
+  const { jobTitle, skills, location, ctc, exp, name } = itm;
 
   return (
     <Card

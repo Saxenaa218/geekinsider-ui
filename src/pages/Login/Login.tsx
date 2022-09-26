@@ -1,24 +1,23 @@
 import React, { useState } from "react";
 import { Form, Input, Button, Modal, notification } from "antd";
-import axios from "axios";
-import { bindActionCreators } from "redux";
-import { connect } from "react-redux";
-import { useHistory } from "react-router";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
-// import { CognitoHostedUIIdentityProvider } from "@aws-amplify/auth/lib/types";
 
-import { setUserType, StateTypes, setIsAuth, setLoading } from "../../redux";
-import { LoginPropsTypes, LoginFormSubmitTypes } from "./types";
+import { LoginFormSubmitTypes } from "./types";
+import API from "../../utils/makeRequest";
+import Logo from "../../components/Logo";
+
 import "./Login.scss";
-import makeRequest from "../../utils/makeRequest";
 
-const Login: React.FC<LoginPropsTypes> = (props) => {
-  const { setUserType, setIsAuth } = props;
+const Login: React.FC = () => {
   const [loginLoading, setLoginLoading] = useState<boolean>(false);
-  const history = useHistory();
+
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const signIn = async (user: string, pass: string) => {
-    const result = await makeRequest.auth("signin", {
+    const result = await API.auth("signin", {
       email: user,
       password: pass,
     });
@@ -39,12 +38,18 @@ const Login: React.FC<LoginPropsTypes> = (props) => {
       }
       const type =
         resp.user.role === "userCandidate" ? "candidate" : "recruiter";
-      setUserType(type);
-      setIsAuth(true);
+      dispatch({
+        type: "SET_USER_TYPE",
+        payload: type,
+      });
+      dispatch({
+        type: "SET_AUTH",
+        payload: true,
+      });
       localStorage.setItem("access_token", resp.token);
       localStorage.setItem("user", JSON.stringify(resp.user));
       setLoginLoading(false);
-      history.push("/home");
+      navigate("/home");
     } catch (e: any) {
       setLoginLoading(false);
       if (e?.code === "UserNotFoundException") {
@@ -55,19 +60,19 @@ const Login: React.FC<LoginPropsTypes> = (props) => {
     }
   };
 
-  const setSignUpModalVisible = () => history.push("/signup");
-
-  // const signInWithGoogle = () =>
-  //   Auth.federatedSignIn({ provider: CognitoHostedUIIdentityProvider.Google });
+  const setSignUpModalVisible = () => navigate("/signup");
 
   const handleCandidateSubmit = (values: LoginFormSubmitTypes) => {
     signInFunc(values);
-    setUserType("candidate");
+    dispatch({
+      type: "SET_USER_TYPE",
+      payload: "candidate",
+    });
   };
 
   return (
     <Modal
-      visible={true}
+      open={true}
       maskClosable={false}
       closable={false}
       bodyStyle={{ padding: "40px" }}
@@ -75,6 +80,7 @@ const Login: React.FC<LoginPropsTypes> = (props) => {
       footer={null}
       centered
     >
+      <Logo />
       <Form
         onFinish={handleCandidateSubmit}
         initialValues={{
@@ -116,11 +122,10 @@ const Login: React.FC<LoginPropsTypes> = (props) => {
             Sign in with Google
           </Button>
         </Form.Item> */}
-        <Form.Item>
+        <Form.Item wrapperCol={{ span: 20 }}>
           <div className="login__otherlinks">
-            <Button type="link" onClick={setSignUpModalVisible}>
-              Register
-            </Button>
+            Not having an account? &nbsp;
+            <a onClick={setSignUpModalVisible}>Sign up</a>
           </div>
         </Form.Item>
       </Form>
@@ -128,18 +133,4 @@ const Login: React.FC<LoginPropsTypes> = (props) => {
   );
 };
 
-const mapStateToProps = (state: StateTypes) => ({
-  userType: state.userType,
-});
-
-const mapDispatchToProps = (dispatch: any) =>
-  bindActionCreators(
-    {
-      setUserType,
-      setIsAuth,
-      setLoading,
-    },
-    dispatch
-  );
-
-export default connect(mapStateToProps, mapDispatchToProps)(Login);
+export default Login;

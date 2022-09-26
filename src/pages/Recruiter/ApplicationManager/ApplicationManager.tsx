@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { Card, Button } from "antd";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
-import { useHistory, useRouteMatch } from "react-router";
+import { useNavigate, useMatch } from "react-router-dom";
 
 import Loader from "../../../components/Loader";
 import { MdLocationOn, MdMonetizationOn, MdHistory } from "react-icons/md";
@@ -14,8 +14,8 @@ import SkillSection from "../../../components/SkillSection";
 import "./ApplicationManager.scss";
 
 const ApplicationManager: React.FC<ApplicationManagerTypes> = (props) => {
-  const history = useHistory();
-  const match: any = useRouteMatch();
+  const navigate = useNavigate();
+  const match: any = useMatch("/recruiter/post/:slug");
   const { activeJob, loading, fetchJobDetail } = props;
   const {
     companyName,
@@ -33,7 +33,7 @@ const ApplicationManager: React.FC<ApplicationManagerTypes> = (props) => {
   }, []);
 
   const handleManageJobPost = () => {
-    history.push(`/recruiter/post/${match.params.slug}/applied-candidates`);
+    navigate(`/recruiter/post/${match.params.slug}/applied-candidates`);
   };
 
   return (

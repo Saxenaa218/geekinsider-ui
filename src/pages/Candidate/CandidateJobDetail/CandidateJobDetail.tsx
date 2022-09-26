@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
-import { useRouteMatch } from "react-router";
+import { useMatch } from "react-router";
 
 import JobPostDetailWidget from "../../../components/JobPostDetailWidget";
 import { StateTypes, fetchJobDetail } from "../../../redux";
@@ -10,7 +10,7 @@ import "./CandidateJobDetail.scss";
 
 const CandidateJobDetail: React.FC<CandidateJobDetailPropTypes> = (props) => {
   const { activeJob, fetchJobDetail } = props;
-  const match: any = useRouteMatch();
+  const match: any = useMatch("/job-detail/:slug");
 
   useEffect(() => {
     fetchJobDetail(match.params.slug);

@@ -1,8 +1,7 @@
 import React, { useEffect } from "react";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
-import { useHistory } from "react-router";
-import { Auth } from "aws-amplify";
+import { useNavigate } from "react-router";
 
 import CandidateLanding from "../Candidate/CandidateLandingPage";
 import RecruiterLanding from "../Recruiter/LandingPage";
@@ -14,7 +13,7 @@ import { getUser, isAuthenticated } from "../../utils";
 
 const LandingPage: React.FC<LandingPagePropTypes> = (props) => {
   const { userType, setUserType, loading } = props;
-  const history = useHistory();
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (isAuthenticated()) {
@@ -22,7 +21,7 @@ const LandingPage: React.FC<LandingPagePropTypes> = (props) => {
       const type = user.role === "userCandidate" ? "candidate" : "recruiter";
       setUserType(type);
     } else {
-      history.push("/login");
+      navigate("/login");
     }
   }, []);
 
@@ -30,7 +29,7 @@ const LandingPage: React.FC<LandingPagePropTypes> = (props) => {
     const { user } = getUser();
     const type = user.role === "userCandidate" ? "candidate" : "recruiter";
     setUserType(type);
-    history.push(`/${type}/profile`);
+    navigate(`/${type}/profile`);
   };
 
   const getLandingUI = (user: UserTypeTypes) => {

@@ -2,7 +2,7 @@ import React from "react";
 import { Select } from "antd";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import { useHistory, useLocation } from "react-router";
+import { useNavigate, useLocation } from "react-router";
 
 import {
   fetchSkillSearch,
@@ -25,14 +25,14 @@ const RecruiterSkillSearch: React.FC<RecruiterSkillSearchPropTypes> = (
     fetchRecruiterSkillSearch,
     skills,
   } = props;
-  const history = useHistory();
+  const navigate = useNavigate();
   const location = useLocation();
 
   const handleChange = (values: string[]) => {
     if (location?.pathname !== "/search") {
       userType === "candidate"
-        ? history.push("/search")
-        : history.push("/recruiter/search");
+        ? navigate("/search")
+        : navigate("/recruiter/search");
     }
     if (values.length) {
       userType === "candidate"
@@ -50,8 +50,8 @@ const RecruiterSkillSearch: React.FC<RecruiterSkillSearchPropTypes> = (
 
   const handleClick = () => {
     userType === "candidate"
-      ? history.push("/search")
-      : history.push("/recruiter/search");
+      ? navigate("/search")
+      : navigate("/recruiter/search");
   };
 
   return (

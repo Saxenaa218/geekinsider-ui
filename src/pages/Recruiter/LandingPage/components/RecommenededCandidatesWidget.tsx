@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { Button, Card, Avatar, Empty } from "antd";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
-import { useHistory } from "react-router";
+import { useNavigate } from "react-router";
 
 import {
   fetchRecommendedCandidates,
@@ -39,52 +39,53 @@ const SingleWidget: React.FC<SingleWidgetTypes> = (props) => {
   );
 };
 
-const RecommenededCandidatesWidget: React.FC<RecommenededCandidatesWidgetTypes> =
-  (props) => {
-    const {
-      recommendedCandidates,
-      fetchRecommendedCandidates,
-      setRecruiterCandidateDetails,
-    } = props;
-    const history = useHistory();
+const RecommenededCandidatesWidget: React.FC<
+  RecommenededCandidatesWidgetTypes
+> = (props) => {
+  const {
+    recommendedCandidates,
+    fetchRecommendedCandidates,
+    setRecruiterCandidateDetails,
+  } = props;
+  const navigate = useNavigate();
 
-    useEffect(() => {
-      if (recommendedCandidates.length === 0) fetchRecommendedCandidates();
-    }, []);
+  useEffect(() => {
+    if (recommendedCandidates.length === 0) fetchRecommendedCandidates();
+  }, []);
 
-    const handleClick = (values: SingleWidgetTypes) => {
-      setRecruiterCandidateDetails(values);
-      history.push(`/candidate/recommended/${values.aboutid}`);
-    };
-
-    const handleSeeMore = () => {
-      history.push("/recruiter/search");
-    };
-
-    return (
-      <div className="recommended-candidates-widget">
-        <h2>Recommended candidates</h2>
-        {recommendedCandidates.length ? (
-          <>
-            <div className="recommended-candidates-widget-container">
-              {recommendedCandidates.slice(0, 3).map((itm: any) => (
-                <SingleWidget key={itm} {...{ ...itm, handleClick }} />
-              ))}
-            </div>
-            {recommendedCandidates.length > 3 && (
-              <div className="see-more-container">
-                <Button onClick={handleSeeMore}>See more...</Button>
-              </div>
-            )}
-          </>
-        ) : (
-          <div>
-            <Empty />
-          </div>
-        )}
-      </div>
-    );
+  const handleClick = (values: SingleWidgetTypes) => {
+    setRecruiterCandidateDetails(values);
+    navigate(`/candidate/recommended/${values.aboutid}`);
   };
+
+  const handleSeeMore = () => {
+    navigate("/recruiter/search");
+  };
+
+  return (
+    <div className="recommended-candidates-widget">
+      <h2>Recommended candidates</h2>
+      {recommendedCandidates.length ? (
+        <>
+          <div className="recommended-candidates-widget-container">
+            {recommendedCandidates.slice(0, 3).map((itm: any) => (
+              <SingleWidget key={itm} {...{ ...itm, handleClick }} />
+            ))}
+          </div>
+          {recommendedCandidates.length > 3 && (
+            <div className="see-more-container">
+              <Button onClick={handleSeeMore}>See more...</Button>
+            </div>
+          )}
+        </>
+      ) : (
+        <div>
+          <Empty />
+        </div>
+      )}
+    </div>
+  );
+};
 
 const mapStateToProps = (state: StateTypes) => ({
   recommendedCandidates: state.recommendedCandidates,

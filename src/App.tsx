@@ -1,13 +1,13 @@
 import React, { lazy, Suspense } from "react";
-import { BrowserRouter, Route, RouteComponentProps } from "react-router-dom";
 import { Provider } from "react-redux";
+import { BrowserRouter } from "react-router-dom";
 import { store } from "./redux/store";
 
-import ErrorBoundary from "./components/ErrorBoundary";
+// import ErrorBoundary from "./components/ErrorBoundary";
 import Loader from "./components/Loader";
 import "./App.scss";
 
-const Routes = lazy(() => import("./routes"));
+const Directions = lazy(() => import("./routes"));
 
 const App: () => JSX.Element = () => {
   return (
@@ -21,14 +21,7 @@ const App: () => JSX.Element = () => {
       >
         <Provider store={store}>
           <BrowserRouter>
-            <Route
-              path="/"
-              render={(props: RouteComponentProps) => (
-                <ErrorBoundary {...props}>
-                  <Routes {...props} />
-                </ErrorBoundary>
-              )}
-            />
+            <Directions />
           </BrowserRouter>
         </Provider>
       </Suspense>

@@ -1,6 +1,6 @@
 import React from "react";
 import { Button } from "antd";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { SingleChatWidget } from "../../components/SingleChatWidget";
 import "./LandingPage.scss";
 
@@ -32,7 +32,7 @@ const demoData = [
 ];
 
 const RecentChatWidget: React.FC<any> = () => {
-  const history = useHistory();
+  const navigate = useNavigate();
   return (
     <div className="recent-chat-widget">
       <h2>Recent Chats</h2>
@@ -42,7 +42,7 @@ const RecentChatWidget: React.FC<any> = () => {
         ))}
       </div>
       <div className="see-more-container">
-        <Button onClick={() => history.push("/messages")}>See more...</Button>
+        <Button onClick={() => navigate("/messages")}>See more...</Button>
       </div>
     </div>
   );

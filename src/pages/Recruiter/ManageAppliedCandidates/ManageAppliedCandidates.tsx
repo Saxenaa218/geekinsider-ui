@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Row, Col, Card, Avatar, Empty } from "antd";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
-import { useRouteMatch } from "react-router";
+import { useMatch } from "react-router";
 import { MdLocationOn, MdMonetizationOn, MdHistory } from "react-icons/md";
 
 import { StateTypes, fetchAppliedCandidates } from "../../../redux";
@@ -13,14 +13,7 @@ import "../../../components/JobWidget/JobWidget.scss";
 import "./ManageAppliedCandidates.scss";
 
 const SingleWidget: React.FC<any> = (props) => {
-  const {
-    exp,
-    jobTitle,
-    location,
-    name,
-    skills,
-    selected,
-  } = props;
+  const { exp, jobTitle, location, name, skills, selected } = props;
   return (
     <Card
       hoverable
@@ -61,7 +54,7 @@ const ManageAppliedCandidates: React.FC<ManageAppliedCandidatesPropTypes> = (
   const { appliedCandidates, fetchAppliedCandidates, activeJob } = props;
   const { jobTitle, jobLocation, ctc } = activeJob;
   const [selected, setSelected] = useState(appliedCandidates[0]);
-  const match: any = useRouteMatch();
+  const match: any = useMatch("/recruiter/post/:slug/applied-candidates");
 
   useEffect(() => {
     setSelected(appliedCandidates[0]);

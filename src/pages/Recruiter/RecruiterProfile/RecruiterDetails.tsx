@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Card, Button } from "antd";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import { MdLocationOn, MdAccountCircle, MdHome } from "react-icons/md";
@@ -29,7 +29,7 @@ const RecruiterDetails: React.FC<RecruiterProfilePropTypes> = (props) => {
     recentJobs,
     fetchPostedJobs,
   } = props;
-  const history = useHistory();
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (recentJobs.length === 0) fetchPostedJobs();
@@ -43,7 +43,7 @@ const RecruiterDetails: React.FC<RecruiterProfilePropTypes> = (props) => {
   }, [skills]);
 
   const handleJobPost = () => {
-    history.push("/recruiter/postjob");
+    navigate("/recruiter/postjob");
   };
 
   return (

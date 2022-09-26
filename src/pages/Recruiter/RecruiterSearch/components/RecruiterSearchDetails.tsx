@@ -12,7 +12,7 @@ import {
 } from "../../../../utils";
 import About from "../../../../components/About";
 import { StateTypes, fetchCandidateDetails } from "../../../../redux";
-import SkillSection from "../../../../components/SkillSection"; 
+import SkillSection from "../../../../components/SkillSection";
 import "./RecruiterSearchDetails.scss";
 
 const RecruiterSearchDetails: React.FC<any> = (props) => {
@@ -36,7 +36,7 @@ const RecruiterSearchDetails: React.FC<any> = (props) => {
     if (!gitInfo) {
       fetchCandidateDetails(aboutid);
     }
-  }, [])
+  }, []);
 
   useEffect(() => {
     if (!gitInfo) {

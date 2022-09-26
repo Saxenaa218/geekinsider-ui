@@ -1,62 +1,57 @@
 import React, { useState } from "react";
-import { Form, Input, Button, Alert, Modal, Tabs, notification } from "antd";
-import axios from "axios";
+import { Form, Input, Button, Modal, notification, Radio } from "antd";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
-import { bindActionCreators } from "redux";
-import { connect } from "react-redux";
-import { useHistory } from "react-router";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router";
 
-import makeRequest from "../../utils/makeRequest";
-import { setUserType, StateTypes, setIsAuth } from "../../redux";
-import {
-  SignupTypes,
-  SignupTabsType,
-  ConfirmSignInFormValueTypes,
-  ConfirmSignUpTypes,
-} from "./types";
+import API from "../../utils/makeRequest";
 import { UserDetailTypes } from "./types";
-import { UserTypeTypes } from "../../routes";
+import Logo from "../../components/Logo";
 
 import "./Signup.scss";
 
-const { TabPane } = Tabs;
-
-const Signup: React.FC<SignupTypes> = (props) => {
-  const history = useHistory();
-  const { userType, setUserType, setIsAuth } = props;
-  const [activeTab, setActiveTab] = useState<UserTypeTypes>("candidate");
+const Signup: React.FC = () => {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [loading, setLoading] = useState<boolean>(false);
-  const [userDetail, setUserDetail] = useState<UserDetailTypes>({
-    email: "",
-    password: "`",
-  });
 
-  const signUpApi = async ({ username, password }) => {
-    const result = await makeRequest.auth("signup", {
+  const signUpApi = async ({ username, password, type }) => {
+    const result = await API.auth("signup", {
       email: username,
       password: password,
-      role: getCandidateNamesForApi(activeTab),
+      role: getTypeForAPI(type),
     });
     return result;
   };
 
+  const getTypeForAPI = (type: string) => {
+    switch (type) {
+      case "candidate":
+        return "userCandidate";
+      case "recruiter":
+        return "userRecruiter";
+      default:
+        return "";
+    }
+  };
+
   const signUp = async (values: UserDetailTypes) => {
-    const { email, password } = values;
+    const { email, password, type } = values;
     try {
       setLoading(true);
-      const resp = await signUpApi({ username: email, password });
-      // setActiveTab("emailVerification");
+      const resp = await signUpApi({ username: email, password, type });
       notification.success({
         message: "Successfully created account",
         description: email,
       });
-      const type =
-        resp.user.role === "userCandidate" ? "candidate" : "recruiter";
       localStorage.setItem("access_token", resp.token);
       localStorage.setItem("user", JSON.stringify(resp.user));
       setLoading(false);
-      setIsAuth(true);
-      history.push(`/${type}/onboarding`);
+      dispatch({
+        type: "SET_AUTH",
+        payload: true,
+      });
+      navigate(`/${type}/onboarding`);
     } catch (error: any) {
       setLoading(false);
       if (error?.code === "UsernameExistsException") {
@@ -67,28 +62,15 @@ const Signup: React.FC<SignupTypes> = (props) => {
     }
   };
 
-  const onActiveKeyChange = (val: any) => setActiveTab(val);
-
-  const openSignInModal = () => history.push("/login");
+  const openSignInModal = () => navigate("/login");
 
   // const handleConfirmSignup = async (val: ConfirmSignInFormValueTypes) => {
   //   confirmSignup({ ...val, email: userDetail.email });
   // };
 
-  const getCandidateNamesForApi = (type: UserTypeTypes | undefined) => {
-    switch (type) {
-      case "candidate":
-        return "userCandidate";
-      case "recruiter":
-        return "userRecruiter";
-      default:
-        return "userCandidate";
-    }
-  };
-
   return (
     <Modal
-      visible={true}
+      open={true}
       maskClosable={false}
       closable={false}
       bodyStyle={{ padding: "40px" }}
@@ -96,148 +78,68 @@ const Signup: React.FC<SignupTypes> = (props) => {
       footer={null}
       centered
     >
-      <Tabs activeKey={activeTab} onChange={onActiveKeyChange} centered>
-        <TabPane tab="Candidate" key="candidate">
-          <Form
-            name="basic"
-            onFinish={(val) => {
-              signUp(val);
-              setUserDetail({ ...val });
-              setUserType("candidate");
-            }}
-          >
-            <Form.Item
-              name="email"
-              rules={[
-                { required: true, message: "Please input your username!" },
-              ]}
-            >
-              <Input
-                prefix={<UserOutlined className="site-form-item-icon" />}
-                placeholder="Email"
-              />
-            </Form.Item>
+      <Logo />
+      <Form
+        name="basic"
+        initialValues={{
+          type: "candidate",
+        }}
+        onFinish={(val) => {
+          console.log(val);
+          signUp(val);
+          dispatch({
+            type: "SET_USER_TYPE",
+            payload: val.value,
+          });
+        }}
+      >
+        <Form.Item
+          name="email"
+          rules={[{ required: true, message: "Please input your username!" }]}
+        >
+          <Input
+            prefix={<UserOutlined className="site-form-item-icon" />}
+            placeholder="Email"
+          />
+        </Form.Item>
 
-            <Form.Item
-              name="password"
-              rules={[
-                { required: true, message: "Please input your password!" },
-              ]}
-            >
-              <Input.Password
-                prefix={<LockOutlined className="site-form-item-icon" />}
-                placeholder="Password"
-              />
-            </Form.Item>
+        <Form.Item
+          name="password"
+          rules={[{ required: true, message: "Please input your password!" }]}
+        >
+          <Input.Password
+            prefix={<LockOutlined className="site-form-item-icon" />}
+            placeholder="Password"
+          />
+        </Form.Item>
 
-            <Form.Item>
-              <Button type="primary" htmlType="submit" block loading={loading}>
-                Sign up
-              </Button>
-            </Form.Item>
-            <Form.Item>
-              <div className="signup__otherlinks">
-                <Button type="link" onClick={openSignInModal}>
-                  Sign in
-                </Button>
-              </div>
-            </Form.Item>
-          </Form>
-        </TabPane>
-        <TabPane tab="Recruiter" key="recruiter">
-          <Form
-            name="basic"
-            onFinish={(val) => {
-              signUp(val);
-              setUserDetail({ ...val });
-              setUserType("recruiter");
-            }}
-          >
-            <Form.Item
-              name="email"
-              rules={[
-                { required: true, message: "Please input your username!" },
-              ]}
-            >
-              <Input
-                prefix={<UserOutlined className="site-form-item-icon" />}
-                placeholder="Email"
-              />
-            </Form.Item>
+        <Form.Item
+          name="type"
+          valuePropName="value"
+          label="You are a"
+          rules={[{ required: true }]}
+        >
+          <Radio.Group optionType="button" buttonStyle="solid">
+            <Radio.Button value="candidate">Candidate</Radio.Button>
+            <Radio.Button value="recruiter">Recruiter</Radio.Button>
+          </Radio.Group>
+        </Form.Item>
 
-            <Form.Item
-              name="password"
-              rules={[
-                { required: true, message: "Please input your password!" },
-              ]}
-            >
-              <Input.Password
-                prefix={<LockOutlined className="site-form-item-icon" />}
-                placeholder="Password"
-              />
-            </Form.Item>
+        <Form.Item>
+          <Button type="primary" htmlType="submit" block loading={loading}>
+            Sign up
+          </Button>
+        </Form.Item>
 
-            <Form.Item>
-              <Button type="primary" htmlType="submit" block loading={loading}>
-                Sign up
-              </Button>
-            </Form.Item>
-            <Form.Item>
-              <div className="signup__otherlinks">
-                <Button type="link" onClick={openSignInModal}>
-                  Sign in
-                </Button>
-              </div>
-            </Form.Item>
-          </Form>
-        </TabPane>
-        {/* <TabPane key="emailVerification">
-          <Form name="Email verification" onFinish={handleConfirmSignup}>
-            <Form.Item>
-              <Alert
-                message="Verification pin successfully sent to your email"
-                type="success"
-                showIcon
-              />
-            </Form.Item>
-            <Form.Item
-              name="authCode"
-              rules={[
-                {
-                  required: true,
-                  message: "Please input pin sent on your email!",
-                },
-              ]}
-            >
-              <Input
-                prefix={<UserOutlined />}
-                placeholder="PIN"
-                autoComplete="off"
-              />
-            </Form.Item>
-            <Form.Item>
-              <Button type="primary" htmlType="submit" block loading={loading}>
-                Confirm sign up
-              </Button>
-            </Form.Item>
-          </Form>
-        </TabPane> */}
-      </Tabs>
+        <Form.Item wrapperCol={{ span: 20 }}>
+          <div className="signup__otherlinks">
+            Already have an account? &nbsp;
+            <a onClick={openSignInModal}>Sign in</a>
+          </div>
+        </Form.Item>
+      </Form>
     </Modal>
   );
 };
 
-const mapStateToProps = (state: StateTypes) => ({
-  userType: state.userType,
-});
-
-const mapDispatchToProps = (dispatch: any) =>
-  bindActionCreators(
-    {
-      setUserType,
-      setIsAuth,
-    },
-    dispatch
-  );
-
-export default connect(mapStateToProps, mapDispatchToProps)(Signup);
+export default Signup;

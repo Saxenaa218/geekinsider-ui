@@ -47,20 +47,18 @@ export const setActiveJobModalVisible = (data: boolean) => {
 
 // fetch candidate profile details
 export const fetchCanProfile = () => {
-  return (dispatch: DispatchType) => {
+  return async (dispatch: DispatchType) => {
     dispatch({ type: "SET_LOADING", payload: true });
-    makeRequest
-      .get("/api/user-can/user")
-      .then((data) => {
-        dispatch({
-          type: "SET_PROFILE_DETAIL",
-          payload: data.user,
-        });
-        dispatch({ type: "SET_LOADING", payload: false });
-      })
-      .catch(() => {
-        dispatch({ type: "SET_LOADING", payload: false });
+    try {
+      const { data } = await makeRequest.get("/api/user-can/user");
+      dispatch({
+        type: "SET_PROFILE_DETAIL",
+        payload: data.user,
       });
+      dispatch({ type: "SET_LOADING", payload: false });
+    } catch (e) {
+      dispatch({ type: "SET_LOADING", payload: false });
+    }
   };
 };
 

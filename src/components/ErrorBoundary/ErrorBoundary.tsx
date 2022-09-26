@@ -28,10 +28,7 @@ class ErrorBoundary extends React.Component<PropsTypes, StateTypes> {
           title="404"
           subTitle="Something went wrong!."
           extra={
-            <Button
-              type="primary"
-              onClick={() => this.props.history.push("/home")}
-            >
+            <Button type="primary" onClick={this.props.redirectHome}>
               Back Home
             </Button>
           }

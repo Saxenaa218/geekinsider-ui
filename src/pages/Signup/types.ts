@@ -1,12 +1,3 @@
-import { UserTypeTypes } from "../../routes";
-
-export interface SignupTypes {
-  setIsAuth: (e: boolean) => void;
-  userType?: UserTypeTypes;
-  setUserType?: any;
-  history?: any;
-}
-
 export type SignupTabsType =
   | "candidate"
   | "recruiter"
@@ -24,4 +15,5 @@ export interface ConfirmSignUpTypes extends ConfirmSignInFormValueTypes {
 export interface UserDetailTypes {
   email: string;
   password: string;
+  type: "candidate" | "recruiter";
 }

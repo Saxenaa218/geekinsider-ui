@@ -6,6 +6,7 @@
 .pnp.js
 /amplify
 package-lock.json
+yarn.lock
 # environment files
 .env
 package-lock.json

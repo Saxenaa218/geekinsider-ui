@@ -2,7 +2,7 @@ import React from "react";
 import { Form, Input, Button, Select } from "antd";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
-import { useHistory } from "react-router";
+import { useNavigate } from "react-router";
 
 import { JobPostingFormPropTypes } from "./types";
 import { createJobPost, StateTypes } from "../../../redux";
@@ -12,7 +12,7 @@ const { Option } = Select;
 
 const JobPostingForm: React.FC<JobPostingFormPropTypes> = (props) => {
   const { createJobPost, skills, cities } = props;
-  const history = useHistory();
+  const navigate = useNavigate();
   const [form] = Form.useForm();
 
   const onFinish = (values: any) => {
@@ -24,14 +24,14 @@ const JobPostingForm: React.FC<JobPostingFormPropTypes> = (props) => {
 
   const afterSuccessfullFinish = () => {
     form.resetFields();
-    // history.push('/recruiter/profile');
-    history.goBack();
+    // navigate('/recruiter/profile');
+    navigate(-1);
   };
 
   const handleCancel = () => {
     form.resetFields();
-    // history.push('/recruiter/profile');
-    history.goBack();
+    // navigate('/recruiter/profile');
+    navigate(-1);
   };
 
   return (

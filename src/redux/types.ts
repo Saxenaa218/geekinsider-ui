@@ -1,4 +1,7 @@
-import { RecentJobType, SingleWidgetTypes } from "../pages/Recruiter/LandingPage";
+import {
+  RecentJobType,
+  SingleWidgetTypes,
+} from "../pages/Recruiter/LandingPage";
 import { UserTypeTypes } from "../routes";
 
 export type SearchType =

@@ -1,14 +1,11 @@
 import React, { useEffect } from "react";
 import { Button, Empty } from "antd";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 
 import JobWidget from "../../../../components/JobWidget";
-import {
-  fetchRecommendedJobs,
-  StateTypes,
-} from "../../../../redux";
+import { fetchRecommendedJobs, StateTypes } from "../../../../redux";
 import "../CandidateLandingPage.scss";
 
 interface RecommCandidateWidgetPropTypes {
@@ -20,14 +17,14 @@ const RecommCandidateWidget: React.FC<RecommCandidateWidgetPropTypes> = (
   props
 ) => {
   const { recommendedJobs, fetchRecommendedJobs } = props;
-  const history = useHistory();
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (recommendedJobs.length === 0) fetchRecommendedJobs();
   }, []);
 
   const handleCardClick = (jobslug: string) => {
-    history.push(`/job-detail/${jobslug}`);
+    navigate(`/job-detail/${jobslug}`);
   };
 
   return (
@@ -51,7 +48,7 @@ const RecommCandidateWidget: React.FC<RecommCandidateWidgetPropTypes> = (
       </div>
       {recommendedJobs.length > 4 ? (
         <div className="see-more-container">
-          <Button onClick={() => history.push("/search?q=recommended")}>
+          <Button onClick={() => navigate("/search?q=recommended")}>
             See more...
           </Button>
         </div>

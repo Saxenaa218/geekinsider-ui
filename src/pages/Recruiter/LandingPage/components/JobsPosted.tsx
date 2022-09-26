@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { Button, Empty, Tooltip } from "antd";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import { FaPlus } from "react-icons/fa";
@@ -14,14 +14,14 @@ const RecommCandidateWidget: React.FC<RecommCandidateWidgetPropTypes> = (
   props
 ) => {
   const { recentJobs, fetchPostedJobs } = props;
-  const history = useHistory();
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (recentJobs.length === 0) fetchPostedJobs();
   }, []);
 
   const handleJobCardClick = (jobSlug: string) => {
-    history.push(`/recruiter/post/${jobSlug}`);
+    navigate(`/recruiter/post/${jobSlug}`);
   };
 
   return (
@@ -41,7 +41,7 @@ const RecommCandidateWidget: React.FC<RecommCandidateWidgetPropTypes> = (
           <div className="post-jobs__empty-section__button">
             <Empty description="No Data, Please post a job and manage here!" />
             <Button
-              onClick={() => history.push("/recruiter/postjob")}
+              onClick={() => navigate("/recruiter/postjob")}
               type="primary"
             >
               <FaPlus className="icon" />
@@ -54,7 +54,7 @@ const RecommCandidateWidget: React.FC<RecommCandidateWidgetPropTypes> = (
         <Tooltip title="Post a job">
           <Button
             shape="circle"
-            onClick={() => history.push("/recruiter/postjob")}
+            onClick={() => navigate("/recruiter/postjob")}
             type="primary"
           >
             <FaPlus className="icon" />

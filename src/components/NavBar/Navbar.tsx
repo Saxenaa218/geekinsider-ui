@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { Input, Dropdown, Menu, Button } from "antd";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import { useHistory } from "react-router";
+import { useNavigate } from "react-router";
 import { UserOutlined } from "@ant-design/icons";
 
 import RecruiterSkillSearch from "./RecruiterSkillSearch";
@@ -36,7 +36,7 @@ const NavBar: React.FC<NavBarPropTypes> = (props) => {
     skills,
     clearStates,
   } = props;
-  const history = useHistory();
+  const navigate = useNavigate();
 
   useEffect(() => {
     cities.length === 0 && fetchCities();
@@ -48,7 +48,7 @@ const NavBar: React.FC<NavBarPropTypes> = (props) => {
     localStorage.removeItem("access_token");
     localStorage.removeItem("user");
     setIsAuth(false);
-    history.push("/login");
+    navigate("/login");
     setLoading(false);
     clearStates();
   };
@@ -58,14 +58,14 @@ const NavBar: React.FC<NavBarPropTypes> = (props) => {
     marginRight: "20px",
   };
 
-  const handleGeekInsiderIconClick = () => history.push("/home");
+  const handleGeekInsiderIconClick = () => navigate("/home");
 
   const handleProfileClick = async () => {
     const { user } = getUser();
     const type = user.role === "userCandidate" ? "candidate" : "recruiter";
     setUserType(type);
     const route = `/${type}/profile`;
-    history.push(route);
+    navigate(route);
   };
 
   const handlePressEnter = (e: any) => {
@@ -89,8 +89,8 @@ const NavBar: React.FC<NavBarPropTypes> = (props) => {
 
   const handleClick = () => {
     userType === "candidate"
-      ? history.push("/search")
-      : history.push("/recruiter/search");
+      ? navigate("/search")
+      : navigate("/recruiter/search");
   };
 
   return (

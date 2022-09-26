@@ -1,2 +1,2 @@
 export { default } from "./SkillSection";
-export * from './types';
+export * from "./types";

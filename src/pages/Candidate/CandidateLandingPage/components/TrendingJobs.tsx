@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { Button, Empty } from "antd";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 
@@ -16,14 +16,14 @@ import "../CandidateLandingPage.scss";
 
 const TrendingJobs: React.FC<TrendingJobsPropTypes> = (props) => {
   const { trendingJobs, fetchTrendingJobs } = props;
-  const history = useHistory();
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (trendingJobs.length === 0) fetchTrendingJobs();
   }, []);
 
   const handleCardClick = (jobslug: string) => {
-    history.push(`/job-detail/${jobslug}`);
+    navigate(`/job-detail/${jobslug}`);
   };
 
   return (
@@ -49,7 +49,7 @@ const TrendingJobs: React.FC<TrendingJobsPropTypes> = (props) => {
         <div className="see-more-container">
           <Button
             onClick={() => {
-              history.push("/search?q=trending");
+              navigate("/search?q=trending");
               setSearchType("trending");
             }}
           >

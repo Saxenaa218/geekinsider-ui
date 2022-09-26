@@ -1,5 +1,5 @@
 import React, { Suspense, lazy, useEffect } from "react";
-import { Switch, Route, Redirect, useHistory } from "react-router-dom";
+import { Routes, Route, useNavigate, useLocation } from "react-router-dom";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 
@@ -115,10 +115,11 @@ const pages = [
   },
 ];
 
-const Routes: React.FC<AppTypes> = (props) => {
-  const { isAuth, location, setIsAuth, loading } = props;
+const Routings: React.FC<AppTypes> = (props) => {
+  const location = useLocation();
+  const navigate = useNavigate();
+  const { isAuth, setIsAuth, loading } = props;
   const invalidLocations = ["", "/", "/login", "/signup"];
-  const history = useHistory();
 
   useEffect(() => {
     if (isAuthenticated()) {
@@ -130,17 +131,17 @@ const Routes: React.FC<AppTypes> = (props) => {
       } catch (e) {
         setIsAuth(false);
         setUserType("");
-        history.push("/login");
+        navigate("/login");
       }
       // redirecting to home is these invalid urls will be requested
       if (location?.pathname && invalidLocations.includes(location.pathname)) {
-        history.push("/home");
+        navigate("/home");
       }
     } else {
       // redirecting to login when user is not authenticated
       setIsAuth(false);
       setUserType("");
-      history.push("/login");
+      navigate("/login");
     }
   }, []);
 
@@ -151,28 +152,17 @@ const Routes: React.FC<AppTypes> = (props) => {
           <NavBar />
         </Suspense>
       )}
-      <Switch>
+      {loading && (
+        <div className="loader--global">
+          <Loader />
+        </div>
+      )}
+      <Routes>
         {pages.map((page, index) => (
-          <Route
-            exact
-            path={page.pageLink}
-            render={() => (
-              <>
-                {loading && (
-                  <div className="loader--global">
-                    <Loader />
-                  </div>
-                )}
-                <div className="app">
-                  <page.view />
-                </div>
-              </>
-            )}
-            key={index}
-          />
+          <Route path={page.pageLink} key={index} element={<page.view />} />
         ))}
-        <Redirect to="/home" />
-      </Switch>
+        {/* <Navigate to="/home" /> */}
+      </Routes>
     </>
   );
 };
@@ -194,4 +184,4 @@ const mapDispatchToProps = (dispatch: any) =>
     dispatch
   );
 
-export default connect(mapStateToProps, mapDispatchToProps)(Routes);
+export default connect(mapStateToProps, mapDispatchToProps)(Routings);
