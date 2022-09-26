@@ -16,12 +16,16 @@ const Signup: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(false);
 
   const signUpApi = async ({ username, password, type }) => {
-    const result = await API.auth("signup", {
-      email: username,
-      password: password,
-      role: getTypeForAPI(type),
-    });
-    return result;
+    try {
+      const result = await API.auth("signup", {
+        email: username,
+        password: password,
+        role: getTypeForAPI(type),
+      });
+      return result;
+    } catch (e: any) {
+      return {};
+    }
   };
 
   const getTypeForAPI = (type: string) => {

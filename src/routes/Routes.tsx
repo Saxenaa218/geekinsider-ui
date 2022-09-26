@@ -1,10 +1,8 @@
 import React, { Suspense, lazy, useEffect } from "react";
 import { Routes, Route, useNavigate, useLocation } from "react-router-dom";
-import { bindActionCreators } from "redux";
-import { connect } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
-import { setIsAuth, setUserType, StateTypes } from "../redux";
-import { AppTypes } from "./types";
+import { StateTypes } from "../redux";
 import { isAuthenticated } from "../utils";
 import Loader from "../components/Loader";
 
@@ -115,11 +113,30 @@ const pages = [
   },
 ];
 
-const Routings: React.FC<AppTypes> = (props) => {
+const Routings: React.FC = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  const { isAuth, setIsAuth, loading } = props;
+  const dispatch = useDispatch();
+  // const userType = useSelector((state: StateTypes) => state.userType)
+  const isAuth = useSelector((state: StateTypes) => state.isAuth);
+  const loading = useSelector((state: StateTypes) => state.loading);
+  // const skills = useSelector((state: StateTypes) => state.skills)
+  // const cities = useSelector((state: StateTypes) => state.cities)
   const invalidLocations = ["", "/", "/login", "/signup"];
+
+  const setIsAuth = (bool: boolean) => {
+    dispatch({
+      type: "SET_AUTH",
+      payload: bool,
+    });
+  };
+
+  const setUserType = (type: "candidate" | "recruiter" | "") => {
+    dispatch({
+      type: "SET_USER_TYPE",
+      payload: type,
+    });
+  };
 
   useEffect(() => {
     if (isAuthenticated()) {
@@ -167,21 +184,4 @@ const Routings: React.FC<AppTypes> = (props) => {
   );
 };
 
-const mapStateToProps = (state: StateTypes) => ({
-  userType: state.userType,
-  isAuth: state.isAuth,
-  loading: state.loading,
-  skills: state.skills,
-  cities: state.cities,
-});
-
-const mapDispatchToProps = (dispatch: any) =>
-  bindActionCreators(
-    {
-      setIsAuth,
-      setUserType,
-    },
-    dispatch
-  );
-
-export default connect(mapStateToProps, mapDispatchToProps)(Routings);
+export default Routings;
