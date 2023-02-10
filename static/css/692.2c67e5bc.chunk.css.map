@@ -1,0 +1,1 @@
+{"version":3,"file":"static/css/692.2c67e5bc.chunk.css","mappings":"AAAA,YACI,YAAa,CADjB,mBAGQ,kBAAmB,CAH3B,eAMQ,iBAAkB","sources":["pages/Onboarding/onboarding.scss"],"sourcesContent":[".onboarding {\n    padding: 10px;\n    header {\n        margin-bottom: 25px;\n    }\n    h2 {\n        text-align: center;\n    }\n}"],"names":[],"sourceRoot":""}
