@@ -14,7 +14,8 @@
     "react-scripts": "5.0.1",
     "redux": "^4.2.1",
     "redux-thunk": "^2.4.1",
-    "web-vitals": "^3.0.2"
+    "web-vitals": "^3.0.2",
+    "@testing-library/react": "^13.4.0"
   },
   "devDependencies": {
     "@testing-library/jest-dom": "^5.16.5",
