@@ -1,7 +1,7 @@
 let baseUrl = "http://localhost:3005";
 
-if (process.env.NODE_ENV === "production") {
-  baseUrl = process.env.BASE_URL;
+if (process.env.ENV === "production") {
+  baseUrl = process.env.API_URL;
 }
 
 const getHeader = () => {
