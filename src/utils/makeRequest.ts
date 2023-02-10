@@ -1,8 +1,4 @@
-let baseUrl = "http://localhost:3005";
-
-if (process.env.ENV === "production") {
-  baseUrl = process.env.API_URL;
-}
+const baseUrl = process.env.API_URL;
 
 const getHeader = () => {
   return {
