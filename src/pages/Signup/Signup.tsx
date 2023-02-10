@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Form, Input, Button, Modal, notification, Radio } from "antd";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
 import { useDispatch } from "react-redux";
@@ -10,7 +10,7 @@ import Logo from "../../components/Logo";
 
 import "./Signup.scss";
 
-const Signup: React.FC = () => {
+const Signup = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [loading, setLoading] = useState<boolean>(false);
@@ -24,7 +24,7 @@ const Signup: React.FC = () => {
       });
       return result;
     } catch (e: any) {
-      return {};
+      return e;
     }
   };
 
@@ -43,19 +43,23 @@ const Signup: React.FC = () => {
     const { email, password, type } = values;
     try {
       setLoading(true);
-      const resp = await signUpApi({ username: email, password, type });
-      notification.success({
-        message: "Successfully created account",
-        description: email,
-      });
-      localStorage.setItem("access_token", resp.token);
-      localStorage.setItem("user", JSON.stringify(resp.user));
-      setLoading(false);
-      dispatch({
-        type: "SET_AUTH",
-        payload: true,
-      });
-      navigate(`/${type}/onboarding`);
+      try {
+        const resp = await signUpApi({ username: email, password, type });
+        notification.success({
+          message: "Successfully created account",
+          description: email,
+        });
+        localStorage.setItem("access_token", resp.token);
+        localStorage.setItem("user", JSON.stringify(resp.user));
+        setLoading(false);
+        dispatch({
+          type: "SET_AUTH",
+          payload: true,
+        });
+        navigate(`/${type}/onboarding`);
+      } catch (error: any) {
+        console.error(error);
+      }
     } catch (error: any) {
       setLoading(false);
       if (error?.code === "UsernameExistsException") {

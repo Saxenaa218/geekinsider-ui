@@ -1,7 +1,7 @@
-let baseUrl = "https://geekinsider.herokuapp.com";
+let baseUrl = "http://localhost:3005";
 
 if (process.env.NODE_ENV === "production") {
-  baseUrl = "https://geekinsider.herokuapp.com";
+  baseUrl = process.env.BASE_URL;
 }
 
 const getHeader = () => {

@@ -1,9 +1,6 @@
-import React from "react";
-import { LogoProps } from "./types";
-
 import "./Logo.scss";
 
-const Logo: React.FC<LogoProps> = (props) => {
+const Logo = () => {
   return <div className="logo">GeekInsider</div>;
 };
 
