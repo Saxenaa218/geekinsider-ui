@@ -1,8 +1,8 @@
-import React from "react";
+// import React from "react";
 import { Progress } from "antd";
 import { SkillSectionPropTypes } from ".";
 
-const SkillSection: React.FC<SkillSectionPropTypes> = (props) => {
+const SkillSection = (props: SkillSectionPropTypes) => {
   const { gitInfo } = props;
   const { repoCount, skills, skillsOrder } = gitInfo;
   return (

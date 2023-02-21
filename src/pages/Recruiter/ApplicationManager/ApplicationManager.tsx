@@ -28,6 +28,8 @@ const ApplicationManager: React.FC<ApplicationManagerTypes> = (props) => {
     gitInfo,
   } = activeJob;
 
+  console.log(Object.keys(activeJob).length, "------")
+
   useEffect(() => {
     fetchJobDetail(match.params.slug);
   }, []);
@@ -38,7 +40,7 @@ const ApplicationManager: React.FC<ApplicationManagerTypes> = (props) => {
 
   return (
     <>
-      {Object.keys(activeJob).length > 0 ? (
+      {/* {Object.keys(activeJob).length > 0 ? ( */}
         <div className="application-manager">
           <section className="each-widget">
             <div className="right-section">
@@ -79,9 +81,9 @@ const ApplicationManager: React.FC<ApplicationManagerTypes> = (props) => {
             </Card>
           )}
         </div>
-      ) : (
+      {/* ) : (
         !loading && <Loader />
-      )}
+      )} */}
     </>
   );
 };

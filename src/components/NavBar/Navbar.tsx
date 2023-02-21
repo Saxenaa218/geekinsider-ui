@@ -1,16 +1,16 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { Input, Dropdown, Menu, Button } from "antd";
-import { connect } from "react-redux";
-import { bindActionCreators } from "redux";
+// import { connect } from "react-redux";
+// import { bindActionCreators } from "redux";
 import { useNavigate } from "react-router";
 import { UserOutlined } from "@ant-design/icons";
 
 import RecruiterSkillSearch from "./RecruiterSkillSearch";
-import { NavBarPropTypes } from "./types";
+// import { NavBarPropTypes } from "./types";
 import {
   setLoading,
   setUserType,
-  getJobDetails,
+  // getJobDetails,
   setSearchType,
   fetchCompanySearchData,
   clearStates,
@@ -21,22 +21,27 @@ import {
 } from "../../redux";
 import "./Navbar.scss";
 import { getUser } from "../../utils";
+import { useSelector } from "react-redux";
 
-const NavBar: React.FC<NavBarPropTypes> = (props) => {
-  const {
-    setIsAuth,
-    setUserType,
-    setLoading,
-    fetchCompanySearchData,
-    setSearchType,
-    userType,
-    fetchCities,
-    fetchSkills,
-    cities,
-    skills,
-    clearStates,
-  } = props;
+const NavBar = () => {
+  // const {
+  //   // setIsAuth,
+  //   // setUserType,
+  //   // setLoading,
+  //   // fetchCompanySearchData,
+  //   // setSearchType,
+  //   // userType,
+  //   // fetchCities,
+  //   // fetchSkills,
+  //   // cities,
+  //   // skills,
+  //   // clearStates,
+  // } = props;
   const navigate = useNavigate();
+
+  const userType = useSelector((state: StateTypes) => state.userType)
+  const cities = useSelector((state: StateTypes) => state.cities)
+  const skills = useSelector((state: StateTypes) => state.skills)
 
   useEffect(() => {
     cities.length === 0 && fetchCities();
@@ -132,26 +137,28 @@ const NavBar: React.FC<NavBarPropTypes> = (props) => {
   );
 };
 
-const mapStateToProps = (state: StateTypes) => ({
-  userType: state.userType,
-  cities: state.cities,
-  skills: state.skills,
-});
+// const mapStateToProps = (state: StateTypes) => ({
+//   userType: state.userType,
+//   cities: state.cities,
+//   skills: state.skills,
+// });
 
-const mapDispatchToProps = (dispatch: any) =>
-  bindActionCreators(
-    {
-      setUserType,
-      setLoading,
-      getJobDetails,
-      setSearchType,
-      fetchCompanySearchData,
-      fetchCities,
-      fetchSkills,
-      clearStates,
-      setIsAuth,
-    },
-    dispatch
-  );
+// const mapDispatchToProps = (dispatch: any) =>
+//   bindActionCreators(
+//     {
+//       setUserType,
+//       setLoading,
+//       getJobDetails,
+//       setSearchType,
+//       fetchCompanySearchData,
+//       fetchCities,
+//       fetchSkills,
+//       clearStates,
+//       setIsAuth,
+//     },
+//     dispatch
+//   );
 
-export default connect(mapStateToProps, mapDispatchToProps)(NavBar);
+// export default connect(mapStateToProps, mapDispatchToProps)(NavBar);
+
+export default NavBar;

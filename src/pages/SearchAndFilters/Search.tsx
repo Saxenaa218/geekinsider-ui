@@ -1,7 +1,7 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { Radio } from "antd";
 import { connect } from "react-redux";
-import { bindActionCreators } from "redux";
+// import { bindActionCreators } from "redux";
 
 import SearchResults from "./SearchResults";
 import {
@@ -11,20 +11,27 @@ import {
   fetchRecommendedJobs,
   fetchTrendingJobs,
 } from "../../redux";
-import { SearchPropTypes } from ".";
+// import { SearchPropTypes } from ".";
 import "./Search.scss";
+import { useSelector } from "react-redux";
 
-const Search: React.FC<SearchPropTypes> = (props) => {
-  const {
-    skillSearch,
-    searchType,
-    trendingJobs,
-    recommendedJobs,
-    companySearch,
-    setSearchType,
-    fetchRecommendedJobs,
-    fetchTrendingJobs,
-  } = props;
+const Search = () => {
+  // const {
+  //   // skillSearch,
+  //   // searchType,
+  //   // trendingJobs,
+  //   // recommendedJobs,
+  //   // companySearch,
+  //   // setSearchType,
+  //   // fetchRecommendedJobs,
+  //   // fetchTrendingJobs,
+  // } = props;
+
+  const skillSearch = useSelector((state: StateTypes) => state.skillSearch)
+  const trendingJobs = useSelector((state: StateTypes) => state.trendingJobs)
+  const recommendedJobs = useSelector((state: StateTypes) => state.recommendedJobs)
+  const companySearch = useSelector((state: StateTypes) => state.companySearch)
+  const searchType = useSelector((state: StateTypes) => state.searchType)
 
   const handleRadioChange = (e: any) => {
     const value = e.target.value;
@@ -83,22 +90,24 @@ const Search: React.FC<SearchPropTypes> = (props) => {
   );
 };
 
-const mapStateToProps = (state: StateTypes) => ({
-  skillSearch: state.skillSearch,
-  trendingJobs: state.trendingJobs,
-  recommendedJobs: state.recommendedJobs,
-  companySearch: state.companySearch,
-  searchType: state.searchType,
-});
+// const mapStateToProps = (state: StateTypes) => ({
+//   skillSearch: state.skillSearch,
+//   trendingJobs: state.trendingJobs,
+//   recommendedJobs: state.recommendedJobs,
+//   companySearch: state.companySearch,
+//   searchType: state.searchType,
+// });
 
-const mapDispatchToProps = (dispatch: any) =>
-  bindActionCreators(
-    {
-      setSearchType,
-      fetchRecommendedJobs,
-      fetchTrendingJobs,
-    },
-    dispatch
-  );
+// const mapDispatchToProps = (dispatch: any) =>
+//   bindActionCreators(
+//     {
+//       setSearchType,
+//       fetchRecommendedJobs,
+//       fetchTrendingJobs,
+//     },
+//     dispatch
+//   );
 
-export default connect(mapStateToProps, mapDispatchToProps)(Search);
+// export default connect(mapStateToProps, mapDispatchToProps)(Search);
+
+export default Search

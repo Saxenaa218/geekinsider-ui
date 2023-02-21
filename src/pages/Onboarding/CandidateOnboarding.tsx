@@ -1,19 +1,24 @@
-import React from "react";
+// import React from "react";
 import { Form, Input, Button, Select } from "antd";
-import { bindActionCreators } from "redux";
-import { connect } from "react-redux";
+// import { bindActionCreators } from "redux";
+// import { connect } from "react-redux";
 import { useNavigate } from "react-router";
 
 import { saveCandidateData, StateTypes, fetchCanProfile } from "../../redux";
 import { CandidateOnboardingPropTypes, CandidateSubmitTypes } from "./types";
 import "./onboarding.scss";
+import { useSelector } from "react-redux";
 
 const { Option } = Select;
 
-const CandidateOnboarding: React.FC<CandidateOnboardingPropTypes> = (props) => {
-  const { saveCandidateData, skills, cities, fetchCanProfile } = props;
+const CandidateOnboarding = () => {
+  // const { saveCandidateData, skills, cities, fetchCanProfile } = props;
   const [form] = Form.useForm();
   const navigate = useNavigate();
+
+  // const userType = useSelector((state: StateTypes) => state.userType)
+  const skills = useSelector((state: StateTypes) => state.skills)
+  const cities = useSelector((state: StateTypes) => state.cities)
 
   const onFinish = (values: CandidateSubmitTypes) => {
     const tempValues = Object.assign({}, values);
@@ -198,22 +203,19 @@ const CandidateOnboarding: React.FC<CandidateOnboardingPropTypes> = (props) => {
   );
 };
 
-const mapStateToProps = (state: StateTypes) => ({
-  userType: state.userType,
-  skills: state.skills,
-  cities: state.cities,
-});
+// const mapStateToProps = (state: StateTypes) => ({
+//   userType: state.userType,
+//   skills: state.skills,
+//   cities: state.cities,
+// });
 
-const mapDispatchToProps = (dispatch: any) =>
-  bindActionCreators(
-    {
-      saveCandidateData,
-      fetchCanProfile,
-    },
-    dispatch
-  );
+// const mapDispatchToProps = (dispatch: any) =>
+//   bindActionCreators(
+//     {
+//       saveCandidateData,
+//       fetchCanProfile,
+//     },
+//     dispatch
+//   );
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(CandidateOnboarding);
+export default CandidateOnboarding;

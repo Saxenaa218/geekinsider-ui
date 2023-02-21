@@ -1,4 +1,3 @@
-import React from "react";
 import { Card, Avatar } from "antd";
 import { MdLocationOn, MdMonetizationOn, MdHistory } from "react-icons/md";
 
@@ -6,7 +5,7 @@ import { JobWidgetPropTypes } from "./types";
 import { iconStyles } from "../../utils";
 import "./JobWidget.scss";
 
-const JobWidget: React.FC<JobWidgetPropTypes> = (props) => {
+const JobWidget = (props: JobWidgetPropTypes) => {
   const { jobTitle, skills, jobLocation, exp, ctc, companyName, jobslug } =
     props;
   const mappableSkills =

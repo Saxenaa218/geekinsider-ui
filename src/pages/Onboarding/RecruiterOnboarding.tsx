@@ -1,20 +1,24 @@
-import React from "react";
+// import React from "react";
 import { Form, Input, Button, Select, InputNumber } from "antd";
-import { bindActionCreators } from "redux";
-import { connect } from "react-redux";
+// import { bindActionCreators } from "redux";
+// import { connect } from "react-redux";
 import { useNavigate } from "react-router";
 
 import { industryTypes } from "../../utils";
 import { saveRecruiterData, StateTypes } from "../../redux";
-import { RecruitereSubmitTypes, RecruiterOnboardingPropTypes } from "./types";
+import { RecruitereSubmitTypes } from "./types";
 import "./onboarding.scss";
+import { useSelector } from "react-redux";
 
 const { Option } = Select;
 
-const RecruiterOnboarding: React.FC<RecruiterOnboardingPropTypes> = (props) => {
-  const { saveRecruiterData, skills, cities } = props;
+const RecruiterOnboarding = () => {
+  // const { saveRecruiterData, skills, cities } = props;
   const [form] = Form.useForm();
   const navigate = useNavigate();
+
+  const skills = useSelector((state: StateTypes) => state.skills)
+  const cities = useSelector((state: StateTypes) => state.cities)
 
   const onFinish = (values: RecruitereSubmitTypes) => {
     const tempValues = Object.assign({}, values);
@@ -193,20 +197,17 @@ const RecruiterOnboarding: React.FC<RecruiterOnboardingPropTypes> = (props) => {
   );
 };
 
-const mapStateToProps = (state: StateTypes) => ({
-  skills: state.skills,
-  cities: state.cities,
-});
+// const mapStateToProps = (state: StateTypes) => ({
+//   skills: state.skills,
+//   cities: state.cities,
+// });
 
-const mapDispatchToProps = (dispatch: any) =>
-  bindActionCreators(
-    {
-      saveRecruiterData,
-    },
-    dispatch
-  );
+// const mapDispatchToProps = (dispatch: any) =>
+//   bindActionCreators(
+//     {
+//       saveRecruiterData,
+//     },
+//     dispatch
+//   );
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(RecruiterOnboarding);
+export default RecruiterOnboarding;

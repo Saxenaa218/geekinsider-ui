@@ -1,4 +1,4 @@
-import React from "react";
+// import React from "react";
 import { Button } from "antd";
 import { useNavigate } from "react-router-dom";
 import { SingleChatWidget } from "../../components/SingleChatWidget";
@@ -31,7 +31,7 @@ const demoData = [
   },
 ];
 
-const RecentChatWidget: React.FC<any> = () => {
+const RecentChatWidget = () => {
   const navigate = useNavigate();
   return (
     <div className="recent-chat-widget">

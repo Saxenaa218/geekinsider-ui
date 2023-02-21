@@ -7,9 +7,13 @@ import Loader from "../../../components/Loader";
 import { fetchCanProfile, StateTypes } from "../../../redux";
 import { ProfilePropsTypes } from "./types";
 import "./CandidateProfile.scss";
+import { useSelector } from "react-redux";
 
-const CandidateProfile: React.FC<ProfilePropsTypes> = (props) => {
-  const { profileDetails, fetchCanProfile, loading } = props;
+const CandidateProfile = () => {
+  // const { fetchCanProfile } = props;
+
+  const profileDetails = useSelector((state: StateTypes) => state.profileDetails)
+  const loading = useSelector((state: StateTypes) => state.loading)
 
   useEffect(() => {
     if (Object.keys(profileDetails).length === 0) fetchCanProfile();
@@ -17,32 +21,26 @@ const CandidateProfile: React.FC<ProfilePropsTypes> = (props) => {
 
   return (
     <>
-      {Object.keys(profileDetails).length > 0 ? (
         <div className="candidate-profile">
           <CandidateDetails {...{ ...profileDetails }} />
         </div>
-      ) : (
-        !loading && (
-          <div className="loader--global">
-            <Loader text="Loading profile..." />
-          </div>
-        )
-      )}
     </>
   );
 };
 
-const mapStateToProps = (state: StateTypes) => ({
-  profileDetails: state.profileDetails,
-  loading: state.loading,
-});
+// const mapStateToProps = (state: StateTypes) => ({
+//   profileDetails: state.profileDetails,
+//   loading: state.loading,
+// });
 
-const mapDispatchToProps = (dispatch: any) =>
-  bindActionCreators(
-    {
-      fetchCanProfile,
-    },
-    dispatch
-  );
+// const mapDispatchToProps = (dispatch: any) =>
+//   bindActionCreators(
+//     {
+//       fetchCanProfile,
+//     },
+//     dispatch
+//   );
 
-export default connect(mapStateToProps, mapDispatchToProps)(CandidateProfile);
+// export default connect(mapStateToProps, mapDispatchToProps)(CandidateProfile);
+
+export default CandidateProfile;

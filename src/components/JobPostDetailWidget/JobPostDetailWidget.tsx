@@ -1,30 +1,46 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { Card, Button } from "antd";
 import { MdLocationOn, MdMonetizationOn, MdHistory } from "react-icons/md";
-import { bindActionCreators } from "redux";
-import { connect } from "react-redux";
+// import { bindActionCreators } from "redux";
+// import { connect } from "react-redux";
 
 import About from "../About";
 import { iconStyles } from "../../utils";
 import { StateTypes, fetchSearchJobDetail, applyForJob } from "../../redux";
 import "./JobPostDetailWidget.scss";
+import { useSelector } from "react-redux";
 
-const JobPostDetailWidget: React.FC<any> = (props) => {
+interface JobPostDetailWidgetTypes {
+  jobTitle: string,
+  skills: string,
+  jobLocation: string,
+  ctc: string,
+  exp: string,
+  searchType: string,
+  jobDescription: string,
+  companyName: string,
+  // applyForJob: (s: string, cb?: () => void) => void,
+  jobslug: string,
+  // fetchSearchJobDetail: (a: string) => void,
+}
+
+const JobPostDetailWidget = (props: any) => {
   const {
     jobTitle,
     skills,
     jobLocation,
     ctc,
     exp,
-    searchType,
     jobDescription,
     companyName,
-    applyForJob,
+    // applyForJob,
     jobslug,
-    fetchSearchJobDetail,
+    // fetchSearchJobDetail,
   } = props;
   const mappableSkills =
     typeof skills === "string" ? skills.split(",") : skills;
+
+  const searchType = useSelector((state: StateTypes) => state.searchType);
 
   const handleApply = () => {
     jobslug && applyForJob(jobslug);
@@ -83,20 +99,22 @@ const JobPostDetailWidget: React.FC<any> = (props) => {
   );
 };
 
-const mapStateToProps = (state: StateTypes) => ({
-  searchType: state.searchType,
-});
+// const mapStateToProps = (state: StateTypes) => ({
+//   searchType: state.searchType,
+// });
 
-const mapDispatchToProps = (dispatch: any) =>
-  bindActionCreators(
-    {
-      applyForJob,
-      fetchSearchJobDetail,
-    },
-    dispatch
-  );
+// const mapDispatchToProps = (dispatch: any) =>
+//   bindActionCreators(
+//     {
+//       applyForJob,
+//       fetchSearchJobDetail,
+//     },
+//     dispatch
+//   );
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(JobPostDetailWidget);
+// export default connect(
+//   mapStateToProps,
+//   mapDispatchToProps
+// )(JobPostDetailWidget);
+
+export default JobPostDetailWidget;

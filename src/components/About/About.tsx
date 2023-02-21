@@ -1,7 +1,6 @@
-import React from "react";
 import { AboutPropTypes } from ".";
 
-const About: React.FC<AboutPropTypes> = ({ children, title }) => {
+const About = ({ children, title }: AboutPropTypes) => {
   return (
     <>
       <h3>

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Form, Input, Button, Modal, notification } from "antd";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router";
@@ -10,7 +10,7 @@ import Logo from "../../components/Logo";
 
 import "./Login.scss";
 
-const Login: React.FC = () => {
+const Login = () => {
   const [loginLoading, setLoginLoading] = useState<boolean>(false);
 
   const navigate = useNavigate();

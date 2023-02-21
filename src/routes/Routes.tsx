@@ -1,8 +1,8 @@
-import React, { Suspense, lazy, useEffect } from "react";
+import { Suspense, lazy, useEffect } from "react";
 import { Routes, Route, useNavigate, useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
-import { StateTypes } from "../redux";
+import { StateTypes, store, setIsAuth, setUserType } from "../redux";
 import { isAuthenticated } from "../utils";
 import Loader from "../components/Loader";
 
@@ -113,7 +113,7 @@ const pages = [
   },
 ];
 
-const Routings: React.FC = () => {
+const Routings = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -123,20 +123,6 @@ const Routings: React.FC = () => {
   // const skills = useSelector((state: StateTypes) => state.skills)
   // const cities = useSelector((state: StateTypes) => state.cities)
   const invalidLocations = ["", "/", "/login", "/signup"];
-
-  const setIsAuth = (bool: boolean) => {
-    dispatch({
-      type: "SET_AUTH",
-      payload: bool,
-    });
-  };
-
-  const setUserType = (type: "candidate" | "recruiter" | "") => {
-    dispatch({
-      type: "SET_USER_TYPE",
-      payload: type,
-    });
-  };
 
   useEffect(() => {
     if (isAuthenticated()) {
@@ -161,6 +147,8 @@ const Routings: React.FC = () => {
       navigate("/login");
     }
   }, []);
+
+  console.log(loading, "routes")
 
   return (
     <>

@@ -1,9 +1,9 @@
-import React from "react";
+// import React from "react";
 import { Card, Avatar } from "antd";
 import { QuickProfilePropTypes } from "./types";
 import "./QuickProfileWidget.scss";
 
-const QuickProfileWidget: React.FC<QuickProfilePropTypes> = (props) => {
+const QuickProfileWidget = (props: QuickProfilePropTypes) => {
   const { title, subtitle, onClick } = props;
   return (
     <div className="quick-profile" onClick={onClick}>

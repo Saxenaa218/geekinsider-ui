@@ -9,7 +9,8 @@ import "./App.scss";
 
 const Directions = lazy(() => import("./routes"));
 
-const App: () => JSX.Element = () => {
+const App = () => {
+  console.log(store.getState().loading, 'app.js')
   return (
     <div>
       <Suspense

@@ -17,7 +17,7 @@ const RecruiterProfile: React.FC<ProfilePropsTypes> = (props) => {
 
   return (
     <div className="recruiter-profile">
-      {Object.keys(profileDetails).length ? (
+      {/* {Object.keys(profileDetails).length ? ( */}
         <>
           {/* <div className="recruiter-profile__left">
                         <QuickProfileWidget title={name} subtitle={preferredIndustry}/>
@@ -26,13 +26,13 @@ const RecruiterProfile: React.FC<ProfilePropsTypes> = (props) => {
             <RecruiterDetails {...{ ...profileDetails }} />
           </div>
         </>
-      ) : (
-        !loading && (
-          <div className="loader--global">
-            <Loader text="Loading profile..." />
-          </div>
-        )
-      )}
+      {/* // ) : (
+      //   !loading && (
+      //     <div className="loader--global">
+      //       <Loader text="Loading profile..." />
+      //     </div>
+      //   )
+      )} */}
     </div>
   );
 };
