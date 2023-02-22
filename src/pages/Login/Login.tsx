@@ -84,8 +84,8 @@ const Login = () => {
       <Form
         onFinish={handleCandidateSubmit}
         initialValues={{
-          username: "itvxqzahzcuhxrhete@uivvn.net",
-          password: "pass@123",
+          username: process.env.REACT_APP_DEMO_USER,
+          password: process.env.REACT_APP_DEMO_PASS,
         }}
       >
         <Form.Item
